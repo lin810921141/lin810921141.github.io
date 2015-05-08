@@ -5,9 +5,9 @@ title: 视频全屏与非全屏的切换
 ###怎样实现视频的全屏与非全屏切换
 首先视频播放的途中决不能因为切换全屏而重新加载，所以首先遇到的问题就是竖屏，横屏的切换，并且不能令Activity重构
 在&lt;activity&gt;标签中防止重构需要加上：
->android:configChanges="orientation|screenSize"
+<pre>android:configChanges="orientation|screenSize"</pre>
 把activity设为全屏显示：
->android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
+<pre>android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"</pre>
 再来就是在代码中强制转换横竖屏的方法：
 <pre>
 //设为横屏
