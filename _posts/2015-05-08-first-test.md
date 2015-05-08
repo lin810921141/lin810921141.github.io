@@ -3,10 +3,10 @@ layout: default
 title: Hello World
 ---
 
-###First Test
+<h1>First Test</h1>
 
->yin yong ~~~~~~~~~
+<p>yin yong ~~~~~~~~~</p>
 
-```
+<pre><code>
 	printf("Hello World");
-```
+</code></pre>
