@@ -46,7 +46,7 @@ public void show(final int ID_img,final int exit_way)
 </pre>
 可以看得出引导页的show首先就是创一个root布局，然后把背景换成引导页图片，再创一个Dialog，检测下Activity是不是满屏的，满屏就把Dialog也设成满屏的，最后把Dialog的ContentView设置成root就显示出来就OK了。另外关于Dialog退出时的效果设置dialog.getWindow().setWindowAnimations(StyleID);
 其中StyleID的写法:
-</pre>
+<pre>
 	&lt;!-- 引导页面用的Style --&gt;
     &lt;style name="fade_out" parent="android:Animation" mce_bogus="1"&gt;
         &lt;item name="android:windowExitAnimation"&gt;@anim/anim_fade_out&lt;/item&gt;
@@ -109,5 +109,5 @@ public void remove()
 		};
 		getData();//获取数据的结束之后利用handler发送msg.what==1的消息告诉handler把引导页dismiss掉
 	}
-<pre>
+</pre>
 
