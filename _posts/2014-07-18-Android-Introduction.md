@@ -2,9 +2,7 @@
 layout:default
 ---
 
-啊沙发沙发
-asdkjad
->你ifhis风hisof哭水电费
+I cannot spell Chinese??
 
 ```
  void fun()
