@@ -5,6 +5,7 @@ layout: default
 ##RadioButton
 A RadioGroup contains a group of RadioButton, they should have their own id, so that you can know which is selected.
 ```xml
+<myxml>
 <RadioGroup 
      android:id="@+id/rg"
      android:orientation="horizontal"
@@ -21,6 +22,7 @@ A RadioGroup contains a group of RadioButton, they should have their own id, so 
           android:id="@+id/woman"
           android:text="女性"/>
 </RadioGroup>
+</myxml>
 ```
 
 -----------
