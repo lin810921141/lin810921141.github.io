@@ -4,7 +4,7 @@ layout: default
 
 ##RadioButton
 A RadioGroup contains a group of RadioButton, they should have their own id, so that you can know which is selected.
-<pre>
+XML:
 <RadioGroup 
      android:id="@+id/rg"
      android:orientation="horizontal"
@@ -21,7 +21,7 @@ A RadioGroup contains a group of RadioButton, they should have their own id, so 
           android:id="@+id/woman"
           android:text="女性"/>
 </RadioGroup>
-</pre> 
+
 -----------
 <pre>
 radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener()
