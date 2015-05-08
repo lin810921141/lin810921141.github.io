@@ -78,7 +78,7 @@ public void remove()
 			dialog=null;
 		}
 	}
-<pre>
+</pre>
 
 最后在Activity里面的应用：
 
