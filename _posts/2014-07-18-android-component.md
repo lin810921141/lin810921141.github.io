@@ -5,22 +5,22 @@ layout: default
 ##RadioButton
 A RadioGroup contains a group of RadioButton, they should have their own id, so that you can know which is selected.
 <pre>
-&ltRadioGroup 
+&lt;RadioGroup 
      android:id="@+id/rg"
      android:orientation="horizontal"
-     android:layout_gravity="center_horizontal"&gt
-     &ltRadioButton 
+     android:layout_gravity="center_horizontal"&gt;
+     &lt;RadioButton 
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:id="@+id/man"
           android:text="男性"
-          android:checked="true"/&gt
-     &ltRadioButton 
+          android:checked="true"/&gt;
+     &lt;RadioButton 
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:id="@+id/woman"
-          android:text="女性"/&gt
-&lt/RadioGroup>
+          android:text="女性"/&gt;
+&lt;/RadioGroup&gt;
 </pre>
 
 -----------
