@@ -104,7 +104,8 @@ public interface MediaPlayerControl {
 
 
 ###如何实现全屏与非全屏的Controller不同
-如图![](../images/portrait_video.png)  ![](../images/landscape_video.png)
+如图![](https://github.com/lin810921141/lin810921141.github.io/blob/master/images/portrait_video.png)  
+![](https://github.com/lin810921141/lin810921141.github.io/blob/master/images/landscape_video.png)
 >思路就是在makeControllerView函数里面判断player是否全屏，分别返回不同的View，除此之外还必须要处理的就是重新setAnchorView，因为在这个函数里面才会调用Controller的的makeControllerView，虽然全屏切换不改变mAnchor，但是需要改变Controller的样式，这2个都是在setAnchorView里面设置的。
 <pre>
 public void toggleFullScreen() 
@@ -163,3 +164,67 @@ protected View makeControllerView() {
     }
 </pre>
 在处理全屏切换的时候重新controller.setAnchorView(surfaceContainer);这样就会重新调用makeControllerView，从而重新根据当前全屏状态给Controller重新设置View，实现了截图的效果。
+
+###实现自定义Controller中按钮的响应
+![](https://github.com/lin810921141/lin810921141.github.io/blob/master/images/landscape_video_2.png)
+>主要处理的其实就是initControllerView这个函数，在里面findViewById找到的组件，然后添加对应的响应函数就OK，例如截图展示的选择清晰度，就是在按了横屏Controller右上方的Setting弹出的PopupWindow
+<pre>
+lin_mSetting_tv=(TextView) v.findViewById(R.id.setting_tv);
+        if(lin_mSetting_tv!=null)
+        {
+        	lin_mSetting_tv.requestFocus();
+        	lin_mSetting_tv.setOnClickListener(new View.OnClickListener()
+			{	
+				@Override
+				public void onClick(View v)
+				{
+					// TODO Auto-generated method stub
+					//doSettingThings();
+					//show(sDefaultTimeout);
+					hide();
+					View popupView=LayoutInflater.from(getContext()).inflate(R.layout.popup_window_main, null);
+					popupWindow=new PopupWindow(popupView,LayoutParams.WRAP_CONTENT,LayoutParams.MATCH_PARENT);
+					popupWindow.setOutsideTouchable(true);
+					popupWindow.setBackgroundDrawable(new BitmapDrawable());
+					popupWindow.setFocusable(true);
+					popupWindow.showAtLocation(VideoControllerView.this, Gravity.RIGHT | Gravity.TOP, -popupWindow.getWidth()-10, 0);
+					mHandler.sendEmptyMessageDelayed(0x888, 2000);
+				}
+			});
+        }
+</pre>
+还有就是发送一个消息，2秒后把PopupWindow给dismiss掉，当然还有PopupWindow的一些设置，setOutsideTouchable(true)让PopupWindow以外的地方依旧可以进行交互，setBackgroundDrawable(new BitmapDrawable())按PopupWindow以外的地方可以把PopupWindow给弄不见，最后setFocusable(true)才能让PopupWindow里面的控件可以按
+<pre>
+private static class MessageHandler extends Handler {
+        private final WeakReference<VideoControllerView> mView;
+ 
+        MessageHandler(VideoControllerView view) {
+            mView = new WeakReference<VideoControllerView>(view);
+        }
+        @Override
+        public void handleMessage(Message msg) {
+            VideoControllerView view = mView.get();
+            if (view == null || view.mPlayer == null) {
+                return;
+            }
+           
+            int pos;
+            switch (msg.what) {
+                case FADE_OUT:
+                    view.hide();
+                    break;
+                case SHOW_PROGRESS:
+                    pos = view.setProgress();
+                    if (!view.mDragging && view.mShowing && view.mPlayer.isPlaying()) {
+                        msg = obtainMessage(SHOW_PROGRESS);
+                        sendMessageDelayed(msg, 1000 - (pos % 1000));
+                    }
+                    break;
+                //deal with my message
+                case 0x888:
+                	view.popupWindow.dismiss();
+                	break;
+            }
+        }
+    }
+</pre>
