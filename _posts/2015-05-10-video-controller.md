@@ -1,15 +1,15 @@
 ---
 layout: default
-title: VideoµÄController
+title: Videoçš„Controller
 ---
 ###About Controller
->AndroidÖ±½ÓÓĞÌá¹©VideoViewºÍMediaController¸øÎÒÃÇ£¬µ«ÊÇ²»×ÔÓÉ£¬µ¥µ¥ÊÇ°ÑControllerÉèÖÃÔÚVideoViewÀïÃæ¾ÍÊÇÒ»¼şÄÑÊÂÁË.
-¾­¹ıÎÒÒ»·¬²éÕÒÖ®ºó£¬ÕÒµ½ÁË¸öÍ¦²»´íµÄ¿ªÔ´µÄController£¬´úÂëÒ²²»Ëã¸´ÔÓ£¬¶øÇÒ»¹ÓĞ²©¿Í½Ì³Ì:
-http://www.brightec.co.uk/blog/custom-android-media-controller
-Github:https://github.com/brightec/ExampleMediaController
+>Androidç›´æ¥æœ‰æä¾›VideoViewå’ŒMediaControllerç»™æˆ‘ä»¬ï¼Œä½†æ˜¯ä¸è‡ªç”±ï¼Œå•å•æ˜¯æŠŠControllerè®¾ç½®åœ¨VideoViewé‡Œé¢å°±æ˜¯ä¸€ä»¶éš¾äº‹äº†.
+ç»è¿‡æˆ‘ä¸€ç•ªæŸ¥æ‰¾ä¹‹åï¼Œæ‰¾åˆ°äº†ä¸ªæŒºä¸é”™çš„å¼€æºçš„Controllerï¼Œä»£ç ä¹Ÿä¸ç®—å¤æ‚ï¼Œè€Œä¸”è¿˜æœ‰åšå®¢æ•™ç¨‹:
+[åšå®¢åœ°å€](http://www.brightec.co.uk/blog/custom-android-media-controller)
+[Github](https://github.com/brightec/ExampleMediaController)
 
 
-MediaControllerViewÕâ¸öÀàÆäÊµ¾ÍÊÇ·ÖÎªÏÔÊ¾ºÍÂß¼­2¸ö²¿·Ö£¬ÏÈ·ÖÎöÏÂÏÔÊ¾²¿·Ö£¬ÏÈ´ÓsetAnchorView¿´Æğ£¬Õâ¸öº¯Êı×öÁË2¼şÊÂ£¬Ò»¸öÊÇ¼ÇÂ¼mAnchor£¬ÁíÒ»¸ö¾ÍÊÇ»ñÈ¡Ò»¸öViewÀ´addView£¬×¢ÒâÏÂÕâ¸öÀàÊÇFrameLayoutµÄ×ÓÀàÅ¶£¬ÕâÀï»¹Ã»¿ªÊ¼°ÑController·Åµ½mAnchorÀïÃæÈ¥µÄ
+MediaControllerViewè¿™ä¸ªç±»å…¶å®å°±æ˜¯åˆ†ä¸ºæ˜¾ç¤ºå’Œé€»è¾‘2ä¸ªéƒ¨åˆ†ï¼Œå…ˆåˆ†æä¸‹æ˜¾ç¤ºéƒ¨åˆ†ï¼Œå…ˆä»setAnchorViewçœ‹èµ·ï¼Œè¿™ä¸ªå‡½æ•°åšäº†2ä»¶äº‹ï¼Œä¸€ä¸ªæ˜¯è®°å½•mAnchorï¼Œå¦ä¸€ä¸ªå°±æ˜¯è·å–ä¸€ä¸ªViewæ¥addViewï¼Œæ³¨æ„ä¸‹è¿™ä¸ªç±»æ˜¯FrameLayoutçš„å­ç±»å“¦ï¼Œè¿™é‡Œè¿˜æ²¡å¼€å§‹æŠŠControlleræ”¾åˆ°mAnchoré‡Œé¢å»çš„
 <pre>
 public void setAnchorView(ViewGroup view) {
         mAnchor = view;
@@ -24,8 +24,8 @@ public void setAnchorView(ViewGroup view) {
         addView(v, frameParams);
     }
 </pre>
-ÔÚmakeControllerView()º¯ÊıÀïÃæ¿ÉÒÔ¿´µ½ÆäÊµ¾ÍÊÇinflateÒ»¸öViewÀ´·µ»Ø¶øÒÑ£¬ÎÒÃÇ¿ÉÒÔÊÊµ±ĞŞ¸Ä£¬Ê¹Ö®·µ»ØµÄÊÇÎÒÃÇÏëÒªµÄView£¬È»ºóÔÚinitControllerView(mRoot);Õâ¸öÀïÃæ¶ÔViewµÄ¸÷¸ö×é¼şĞ´ÏìÓ¦º¯Êı
->×¢ÒâÅ¶£¬ÏÂÃæµÄ´úÂëÀïÃæ¾Í½øĞĞÁËĞŞ¸Ä£¬ÎÒÔÚÕâÀïÅĞ¶ÏÊÇ·ñÈ«ÆÁÀ´·µ»Ø²»Í¬µÄView
+åœ¨makeControllerView()å‡½æ•°é‡Œé¢å¯ä»¥çœ‹åˆ°å…¶å®å°±æ˜¯inflateä¸€ä¸ªViewæ¥è¿”å›è€Œå·²ï¼Œæˆ‘ä»¬å¯ä»¥é€‚å½“ä¿®æ”¹ï¼Œä½¿ä¹‹è¿”å›çš„æ˜¯æˆ‘ä»¬æƒ³è¦çš„Viewï¼Œç„¶ååœ¨initControllerView(mRoot);è¿™ä¸ªé‡Œé¢å¯¹Viewçš„å„ä¸ªç»„ä»¶å†™å“åº”å‡½æ•°
+>æ³¨æ„å“¦ï¼Œä¸‹é¢çš„ä»£ç é‡Œé¢å°±è¿›è¡Œäº†ä¿®æ”¹ï¼Œæˆ‘åœ¨è¿™é‡Œåˆ¤æ–­æ˜¯å¦å…¨å±æ¥è¿”å›ä¸åŒçš„View
 <pre>
 protected View makeControllerView() {
         LayoutInflater inflate = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -46,3 +46,58 @@ protected View makeControllerView() {
         return mRoot;
     }
 </pre>
+çœŸæ­£æ˜¾ç¤ºControllerçš„æ˜¯åœ¨showå‡½æ•°é‡Œé¢ï¼Œå…·ä½“çš„åšæ³•å…¶å®å°±æ˜¯æŠŠmAnchor.addView(this,tlp)è¿™å¥ï¼ŒæŠŠControllerè¿™ä¸ªFrameLayoutåŠ åˆ°mAnchorä¸­
+<pre>
+public void show(int timeout) {
+        if (!mShowing && mAnchor != null) {
+            setProgress();
+            if (mPauseButton != null) {
+                mPauseButton.requestFocus();
+            }
+            disableUnsupportedButtons();
+ 
+            FrameLayout.LayoutParams tlp = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                //ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                Gravity.BOTTOM
+            );
+           
+            mAnchor.addView(this, tlp);
+            mShowing = true;
+        }
+        updatePausePlay();
+        updateFullScreen();
+       
+        // cause the progress bar to be updated even if mShowing
+        // was already true.  This happens, for example, if we're
+        // paused with the progress bar showing the user hits play.
+        mHandler.sendEmptyMessage(SHOW_PROGRESS);
+ 
+        Message msg = mHandler.obtainMessage(FADE_OUT);
+        if (timeout != 0) {
+            mHandler.removeMessages(FADE_OUT);
+            mHandler.sendMessageDelayed(msg, timeout);
+        }
+    }
+</pre>
+-----------------
+è‡³äºé€»è¾‘éƒ¨åˆ†ï¼Œä¸»è¦å¤„ç†çš„å°±æ˜¯makeControllerViewé‡Œé¢çš„é‚£äº›å“åº”å‡½æ•°è€Œå·²ï¼Œä¸è¿‡æœ‰ä¸€ç‚¹è¦æ³¨æ„çš„æ˜¯MediaControllerViewé‡Œé¢çš„mPlayerå¹¶ä¸æ˜¯MediaPlayerç±»ï¼Œè€Œæ˜¯å®ƒæœ¬èº«å®šä¹‰çš„ä¸€ä¸ªInterface
+<pre>
+private MediaPlayerControl  mPlayer;
+public interface MediaPlayerControl {
+        void    start();
+        void    pause();
+        int     getDuration();
+        int     getCurrentPosition();
+        void    seekTo(int pos);
+        boolean isPlaying();
+        int     getBufferPercentage();
+        boolean canPause();
+        boolean canSeekBackward();
+        boolean canSeekForward();
+        boolean isFullScreen();
+        void    toggleFullScreen();
+    }
+</pre>
+è€Œå®ç°äº†è¿™ä¸ªInterfaceçš„å°±æ˜¯æ‹¥æœ‰çœŸæ­£çš„MediaPlayerçš„Activityå¯¹è±¡äº†ï¼ŒInterfaceçš„å‡½æ•°å…¨éƒ¨é€šè¿‡mPlayerï¼Œå³æ˜¯å«Activityå§”æ´¾å®ƒçš„æˆå‘˜MediaPlayerå»åšï¼Œé™¤æ­¤ä¹‹å¤–ï¼Œè¿˜æœ‰ä¸€äº›äº‹å¯ä»¥æ˜¯Activityç›´æ¥åšçš„ï¼Œè¿™ç§æ–¹å¼æ˜¾å¾—æ›´åŠ è‡ªç”±ã€‚
