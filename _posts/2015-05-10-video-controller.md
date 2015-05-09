@@ -104,8 +104,8 @@ public interface MediaPlayerControl {
 
 
 ###如何实现全屏与非全屏的Controller不同
-如图<img src="/images/portrait_video.png" height="300px" />
-![](images/landscape_video.png)
+如图<img src="https://github.com/lin810921141/lin810921141.github.io/blob/master/images/landscape_video.png" height="300px" />
+<img src="https://github.com/lin810921141/lin810921141.github.io/blob/master/images/landscape_video.png" height="300px" />
 >思路就是在makeControllerView函数里面判断player是否全屏，分别返回不同的View，除此之外还必须要处理的就是重新setAnchorView，因为在这个函数里面才会调用Controller的的makeControllerView，虽然全屏切换不改变mAnchor，但是需要改变Controller的样式，这2个都是在setAnchorView里面设置的。
 <pre>
 public void toggleFullScreen() 
@@ -166,7 +166,7 @@ protected View makeControllerView() {
 在处理全屏切换的时候重新controller.setAnchorView(surfaceContainer);这样就会重新调用makeControllerView，从而重新根据当前全屏状态给Controller重新设置View，实现了截图的效果。
 
 ###实现自定义Controller中按钮的响应
-![](images/landscape_video_2.png)
+<img src="https://github.com/lin810921141/lin810921141.github.io/blob/master/images/landscape_video_2.png" height="300px" />
 >主要处理的其实就是initControllerView这个函数，在里面findViewById找到的组件，然后添加对应的响应函数就OK，例如截图展示的选择清晰度，就是在按了横屏Controller右上方的Setting弹出的PopupWindow
 <pre>
 lin_mSetting_tv=(TextView) v.findViewById(R.id.setting_tv);
