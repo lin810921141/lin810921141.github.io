@@ -101,3 +101,65 @@ public interface MediaPlayerControl {
     }
 </pre>
 而实现了这个Interface的就是拥有真正的MediaPlayer的Activity对象了，Interface的函数全部通过mPlayer，即是叫Activity委派它的成员MediaPlayer去做，除此之外，还有一些事可以是Activity直接做的，这种方式显得更加自由。
+
+
+###如何实现全屏与非全屏的Controller不同
+如图![](../images/portrait_video.png)  ![](../images/landscape_video.png)
+>思路就是在makeControllerView函数里面判断player是否全屏，分别返回不同的View，除此之外还必须要处理的就是重新setAnchorView，因为在这个函数里面才会调用Controller的的makeControllerView，虽然全屏切换不改变mAnchor，但是需要改变Controller的样式，这2个都是在setAnchorView里面设置的。
+<pre>
+public void toggleFullScreen() 
+	{ 
+		flag=!flag;
+		if(flag)
+		{
+			scrollView.setVisibility(View.GONE);
+			surfaceContainer.setLayoutParams(landParams);
+			controller.setAnchorView(surfaceContainer);
+			
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		}else {
+			
+			scrollView.setVisibility(View.VISIBLE);
+			surfaceContainer.setLayoutParams(portpParams);
+			controller.setAnchorView(surfaceContainer);
+			
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			
+		}
+	} 
+</pre>
+<pre>
+public void setAnchorView(ViewGroup view) {
+        mAnchor = view;
+ 
+        FrameLayout.LayoutParams frameParams = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        );
+ 
+        removeAllViews();
+        View v = makeControllerView();
+        addView(v, frameParams);
+    }
+</pre>
+<pre>
+protected View makeControllerView() {
+        LayoutInflater inflate = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //mRoot = inflate.inflate(R.layout.media_controller, null);
+        if(mPlayer!=null)
+        {
+        	if(mPlayer.isFullScreen())
+        	{
+        		mRoot = inflate.inflate(R.layout.my_media_controller_fullscreen, null);
+        	}
+        	else {
+				mRoot = inflate.inflate(R.layout.my_media_controller, null);
+			}
+        }
+
+        initControllerView(mRoot);
+ 
+        return mRoot;
+    }
+</pre>
+在处理全屏切换的时候重新controller.setAnchorView(surfaceContainer);这样就会重新调用makeControllerView，从而重新根据当前全屏状态给Controller重新设置View，实现了截图的效果。
