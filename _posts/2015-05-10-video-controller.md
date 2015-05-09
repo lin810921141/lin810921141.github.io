@@ -104,7 +104,7 @@ public interface MediaPlayerControl {
 
 
 ###如何实现全屏与非全屏的Controller不同
-如图![](images/portrait_video.png)  
+如图<img src="/images/portrait_video.png" height="300px" />
 ![](images/landscape_video.png)
 >思路就是在makeControllerView函数里面判断player是否全屏，分别返回不同的View，除此之外还必须要处理的就是重新setAnchorView，因为在这个函数里面才会调用Controller的的makeControllerView，虽然全屏切换不改变mAnchor，但是需要改变Controller的样式，这2个都是在setAnchorView里面设置的。
 <pre>
