@@ -53,9 +53,10 @@ title: listView优化+图片缓存+异步加载图片回调显示
 
 ##图片缓存
 ListView每个Item都带图片，显然每次都从服务器下载下来会显得费时又费流量，是很不好的做法。可以把已经下载下来的图片缓存到内存中，或者是存到SD卡中，不过我作为平时的Android的使用者，我都不喜欢一些APP擅作主张占了我的SD卡创建一些莫名其妙的文件夹。
->用的是软引用技术，软引用引用的图片在遇到内存不足的时候，图片对象会被销毁掉，所以这种方式下就不会引起OOM问题了。
->[软引用的一些具体介绍](http://soft.chinabyte.com/database/149/12485149.shtml)
+	>用的是软引用技术，软引用引用的图片在遇到内存不足的时候，图片对象会被销毁掉，所以这种方式下就不会引起OOM问题了。
+[软引用的一些具体介绍](http://soft.chinabyte.com/database/149/12485149.shtml)
 <pre>
+{
 private Map<String, SoftReference<Bitmap>> imgCacheMap;
 
 
@@ -102,6 +103,7 @@ if(imgCacheMap.containsKey(imageURL))
 			}.start();
 		}
 		return null;
+}
 </pre>
 
 ##异步加载图片的回调
