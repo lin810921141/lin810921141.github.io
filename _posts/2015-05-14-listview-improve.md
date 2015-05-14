@@ -52,58 +52,9 @@ title: listView优化+图片缓存+异步加载图片回调显示
 </pre>
 
 ##图片缓存
-ListView每个Item都带图片，显然每次都从服务器下载下来会显得费时又费流量，是很不好的做法。可以把已经下载下来的图片缓存到内存中，或者是存到SD卡中，不过我作为平时的Android的使用者，我都不喜欢一些APP擅作主张占了我的SD卡创建一些莫名其妙的文件夹。
-	>用的是软引用技术，软引用引用的图片在遇到内存不足的时候，图片对象会被销毁掉，所以这种方式下就不会引起OOM问题了。
-[软引用的一些具体介绍](http://soft.chinabyte.com/database/149/12485149.shtml)
+ListView每个Item都带图片，显然每次都从服务器下载下来会显得费时又费流量，是很不好的做法。可以把已经下载下来的图片缓存到内存中，或者是存到SD卡中，不过我作为平时的Android的使用者，我都不喜欢一些APP擅作主张占了我的SD卡创建一些莫名其妙的文件夹。用的是软引用技术，软引用引用的图片在遇到内存不足的时候，图片对象会被销毁掉，所以这种方式下就不会引起OOM问题了。[软引用的一些具体介绍]http://soft.chinabyte.com/database/149/12485149.shtml)
 <pre>
-{
-private Map<String, SoftReference<Bitmap>> imgCacheMap;
 
-
-if(imgCacheMap.containsKey(imageURL))
-		{
-			Bitmap bmp=imgCacheMap.get(imageURL).get();
-			if(bmp!=null)
-			{
-				return bmp;
-			}else {
-				//对应的bmp已经被GC回收了
-				imgCacheMap.remove(imageURL);
-			}
-		}
-		
-		//开启线程下载图片，并且下载的图片加到缓存的Map中去，至于下载完图片之后怎样通知更新一会再说
-			new Thread()
-			{
-
-				@Override
-				public void run()
-				{
-					HttpClient client = new DefaultHttpClient();
-					HttpGet get = new HttpGet(imageURL);
-					try
-					{
-						HttpResponse response = client.execute(get);
-						InputStream is = response.getEntity().getContent();
-						Bitmap bmp = BitmapFactory.decodeStream(is);
-						Log.e("Lin", "download " + imageURL);
-						imgCacheMap.put(imageURL,
-								new SoftReference<Bitmap>(bmp));
-						Message msg = handler.obtainMessage(0, bmp);
-						handler.sendMessage(msg);
-					} catch (ClientProtocolException e)
-					{
-						e.printStackTrace();
-					} catch (IOException e)
-					{
-						e.printStackTrace();
-					}
-				}
-
-			}.start();
-		}
-		return null;
-}
 </pre>
 
 ##异步加载图片的回调
