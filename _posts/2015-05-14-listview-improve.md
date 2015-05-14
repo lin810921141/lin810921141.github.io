@@ -56,7 +56,7 @@ ListView每个Item都带图片，显然每次都从服务器下载下来会显�
 <pre>
 public class AsyncBitmapLoader
 {
-	private Map<String, SoftReference<Bitmap>> imgCacheMap;
+	private Map&lt;String, SoftReference&lt;Bitmap&gt;&gt; imgCacheMap;
 	public Bitmap loadBitmap(final ImageView imageView,final String imageURL, final ImageCallBack imageCallBack) 
 	{
 		if(imgCacheMap.containsKey(imageURL))
@@ -84,7 +84,7 @@ public class AsyncBitmapLoader
 						Bitmap bmp = BitmapFactory.decodeStream(is);
 						Log.e("Lin", "download " + imageURL);
 						imgCacheMap.put(imageURL,
-								new SoftReference<Bitmap>(bmp));
+								new SoftReference&lt;Bitmap&gt;(bmp));
 					} catch (ClientProtocolException e)
 					{
 						e.printStackTrace();
@@ -107,11 +107,11 @@ public class AsyncBitmapLoader
 <pre>
 public class AsyncBitmapLoader
 {
-	private Map<String, SoftReference<Bitmap>> imgCacheMap;//缓存Map
+	private Map&lt;String, SoftReference&lt;Bitmap&gt;&gt; imgCacheMap;//缓存Map
 	private boolean isAllowDownloadbmp=true;//判断是否允许去下载图片，这里又涉及到另一个ListView的优化，假设你ListView有100项，每一项都要加载一张图片，当ListView一显示出来，用户就使劲往下拉，拉到100项那里去，那不就运行了100次getView了么，难道任由ListView那次都去开线程去下图片么？肯定不行呀，100个线程可不是闹着玩的，而且你下载中间那么多图片又不会马上显示给用户看，很可能一会儿就因内存满了而被GC回收掉，那不教白费力气了么，所以只有当用户停止了滑动的时候才会允许加载图片
 	public AsyncBitmapLoader()
 	{
-		imgCacheMap=new HashMap<>();
+		imgCacheMap=new HashMap&lt;&gt;();
 	}
 	//参数imageView用于更新UI,imageURL用于下载图片，imageCallBack是一个回调接口Interface
 	public Bitmap loadBitmap(final ImageView imageView,final String imageURL, final ImageCallBack imageCallBack) 
@@ -155,7 +155,7 @@ public class AsyncBitmapLoader
 						Bitmap bmp = BitmapFactory.decodeStream(is);
 						Log.e("Lin", "download " + imageURL);
 						imgCacheMap.put(imageURL,
-								new SoftReference<Bitmap>(bmp));
+								new SoftReference&lt;Bitmap&gt;(bmp));
 						Message msg = handler.obtainMessage(0, bmp);
 						handler.sendMessage(msg);
 					} catch (ClientProtocolException e)
@@ -189,7 +189,7 @@ Adapter如何应用上面这个类：
 <pre>
 public class MyAdapter extends BaseAdapter
 {
-	private List<Info> infos=new ArrayList<>();
+	private List&lt;Info&gt; infos=new ArrayList&lt;&gt;();
 	private Context mContext;
 	public AsyncBitmapLoader asyncBitmapLoader;
 	
