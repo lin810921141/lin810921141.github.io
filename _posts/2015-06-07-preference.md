@@ -7,9 +7,8 @@ title: Preference的使用
 >Preference用于APP的设置，它会记录用户的设置，并且每次都实时更新UI，省下我们不少的功夫。不然我们如果想要做到同样的效果，我们用View来写好界面，然后还要保存一堆的SharePreference的值，来维护这个界面，而Preference就能自动帮我们完成
 
 ##Preference的使用
-按照官网的教程：
 * Preference系统提供了CheckBoxPreference，ListPreference，EditTextPreference4种
-*定义Preference在XML中，首先必须把XML文件保存在res/xml中，xml文件的根节点必须是&lt;PreferenceScreen&gt;
+* 定义Preference在XML中，首先必须把XML文件保存在res/xml中，xml文件的根节点必须是&lt;PreferenceScreen&gt;
 例如：
 <pre>
 &lt;?xml version="1.0" encoding="utf-8"?&gt;
@@ -124,3 +123,38 @@ public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
         }
     }
 </pre>
+
+#自定义进阶
+###主题的影响
+不同的主题Theme都会影响到Preference的样式  
+android:theme="@android:style/Theme.Holo.Light"  
+![](/images/preference2.png)  
+android:theme="@android:style/Theme.Light"  
+![](/images/preference1.png)
+
+###自定义的PreferenceCategory
+继承PreferenceCategory之后在onBindView函数中处理就可以
+<pre>
+public class MyPreferenceCategory extends PreferenceCategory
+{
+	@Override
+	protected void onBindView(View view)
+	{
+		// TODO Auto-generated method stub
+		super.onBindView(view);
+		view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 40));
+		if(view instanceof TextView)
+		{
+			((TextView) view).setGravity(Gravity.BOTTOM);
+		}
+	} 
+}
+</pre>
+事实上PreferenceCategory就是一个TextView而已，可以查看源码的layout,位于frameworks/base/core/res/layout/preference_category.xml
+<pre>
+&lt;TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="?android:attr/listSeparatorTextViewStyle"
+    android:id="@+android:id/title"
+/&gt;
+</pre>
+所以理论上你可以在onBindView函数返回的那个View中做你任何想要的处理，改变背景颜色啦，改变字体大小，字体颜色之类都可以。
