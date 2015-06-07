@@ -8,8 +8,8 @@ title: Preference的使用
 
 ##Preference的使用
 按照官网的教程：
-1. Preference系统提供了CheckBoxPreference，ListPreference，EditTextPreference4种
-2. 定义Preference在XML中，首先必须把XML文件保存在res/xml中，xml文件的根节点必须是&lt;PreferenceScreen&gt;
+* Preference系统提供了CheckBoxPreference，ListPreference，EditTextPreference4种
+*定义Preference在XML中，首先必须把XML文件保存在res/xml中，xml文件的根节点必须是&lt;PreferenceScreen&gt;
 例如：
 <pre>
 &lt;?xml version="1.0" encoding="utf-8"?&gt;
@@ -33,7 +33,7 @@ title: Preference的使用
 android:title对应于标题
 android:defaultVaule对应默认值
 
-3. 创建分组，有2种方法，第一种是用PreferenceCategory：
+* 创建分组，有2种方法，第一种是用PreferenceCategory：
 <pre>
 &lt;PreferenceCategory
      android:title="影视圈隐私"&gt;
@@ -41,4 +41,86 @@ android:defaultVaule对应默认值
             android:title="好友隐私"&gt; 
         &lt;/Preference&gt;
 &lt;/PreferenceCategory&gt;
+</pre>
+第二种就是用PreferenceScreen:
+<pre>
+&lt;PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android"&gt;
+    &lt;!-- opens a subscreen of settings --&gt;
+    &lt;PreferenceScreen
+        android:key="button_voicemail_category_key"
+        android:title="@string/voicemail"
+        android:persistent="false"&gt;
+        &lt;ListPreference
+            android:key="button_voicemail_provider_key"
+            android:title="@string/voicemail_provider" ... /&gt;
+        &lt;!-- opens another nested subscreen --&gt;
+        &lt;PreferenceScreen
+            android:key="button_voicemail_setting_key"
+            android:title="@string/voicemail_settings"
+            android:persistent="false"&gt;
+            ...
+        &lt;/PreferenceScreen&gt;
+        &lt;RingtonePreference
+            android:key="button_voicemail_ringtone_key"
+            android:title="@string/voicemail_ringtone_title"
+            android:ringtoneType="notification" ... /&gt;
+        ...
+    &lt;/PreferenceScreen&gt;
+    ...
+&lt;/PreferenceScreen&gt;
+</pre>
+
+* 使用Intent，当按Preference时可以触发Intent跳转
+<pre>
+&lt;Preference android:title="@string/prefs_web_page" &gt;
+    &lt;intent android:action="android.intent.action.VIEW"
+            android:data="http://www.example.com" /&gt;
+&lt;/Preference&gt;
+</pre>
+当然还能跳转到其他Activity去，android:targetClass，android:targetPackage
+
+##Activity如何显示Preference
+首先Activity必须是继承自PreferenceActivity
+<pre>
+public class SettingsActivity extends PreferenceActivity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.preferences);
+    }
+}
+</pre>
+
+##读取Preferences
+我们知道Preference能帮我们自动联系SharePreference，设置好的Setting，当我们需要读取用户的设置时应该怎做？
+<pre>
+SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+String syncConnPref = sharedPref.getString(SettingsActivity.KEY_PREF_SYNC_CONN, "");
+</pre>
+
+##监听Preference
+<pre>
+@Override
+protected void onResume() {
+    super.onResume();
+    getPreferenceScreen().getSharedPreferences()
+            .registerOnSharedPreferenceChangeListener(this);
+}
+
+@Override
+protected void onPause() {
+    super.onPause();
+    getPreferenceScreen().getSharedPreferences()
+            .unregisterOnSharedPreferenceChangeListener(this);
+}
+</pre>
+<pre>
+public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+        String key) {
+        if (key.equals(KEY_PREF_SYNC_CONN)) {
+            Preference connectionPref = findPreference(key);
+            // Set summary to be the user-description for the selected value
+            connectionPref.setSummary(sharedPreferences.getString(key, ""));
+        }
+    }
 </pre>
