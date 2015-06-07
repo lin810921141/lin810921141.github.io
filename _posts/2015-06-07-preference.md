@@ -188,3 +188,157 @@ public class MyPreferenceCategory extends PreferenceCategory
 </pre>
 所以理论上你可以在onBindView函数返回的那个View中做你任何想要的处理，改变背景颜色啦，改变字体大小，字体颜色之类都可以。  
 
+##自定义的Preference  
+先看看系统原本的Preference的布局文件  
+![](/images/preference3.png)  
+可以看到就是一个横向的LinearLayout，里面有一个Weight=1的相对布局，相对布局里面有2个textView，然后右侧有一个widget_frame的LinearLayout，这个里面的图片是我自己加上去的，不然会因为weight=1而看不到。然后这个widget_frame就是对应于android:widgetlayout这个attr的了。我们写一个layout赋值给它就可以实现大部分的自定义样式了。  
+例如  
+<pre>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical" &gt;
+    &lt;TextView
+        android:id="@+id/tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/&gt;
+
+&lt;/LinearLayout&gt;
+</pre>
+定义了一个TextView的LinearLayout当成android:widgetLayout的值。  
+那么怎样引用我们这个Tip呢，它是widget_frame的内容
+先看看Preference的源码：
+<pre>
+protected View onCreateView(ViewGroup parent) {
+        final LayoutInflater layoutInflater =
+            (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        
+        final View layout = layoutInflater.inflate(mLayoutResId, parent, false); 
+        
+        final ViewGroup widgetFrame = (ViewGroup) layout
+                .findViewById(com.android.internal.R.id.widget_frame);
+        if (widgetFrame != null) {
+            if (mWidgetLayoutResId != 0) {
+                layoutInflater.inflate(mWidgetLayoutResId, widgetFrame);
+            } else {
+                widgetFrame.setVisibility(View.GONE);
+            }
+        }
+        return layout;
+    }
+	
+protected void onBindView(View view) {
+        TextView textView = (TextView) view.findViewById(com.android.internal.R.id.title); 
+        if (textView != null) {
+            textView.setText(getTitle());
+        }
+        
+        textView = (TextView) view.findViewById(com.android.internal.R.id.summary);
+        if (textView != null) {
+            final CharSequence summary = getSummary();
+            if (!TextUtils.isEmpty(summary)) {
+                if (textView.getVisibility() != View.VISIBLE) {
+                    textView.setVisibility(View.VISIBLE);
+                }
+                
+                textView.setText(getSummary());
+            } else {
+                if (textView.getVisibility() != View.GONE) {
+                    textView.setVisibility(View.GONE);
+                }
+            }
+        }
+        
+        ImageView imageView = (ImageView) view.findViewById(com.android.internal.R.id.icon);
+        if (imageView != null) {
+            if (mIconResId != 0 || mIcon != null) {
+                if (mIcon == null) {
+                    mIcon = getContext().getResources().getDrawable(mIconResId);
+                }
+                if (mIcon != null) {
+                    imageView.setImageDrawable(mIcon);
+                }
+            }
+            imageView.setVisibility(mIcon != null ? View.VISIBLE : View.GONE);
+        }
+
+        if (mShouldDisableView) {
+            setEnabledStateOnViews(view, isEnabled());
+        }
+    }
+</pre>  
+源码那里就是把我们的widget参数的layout以他本身的widget_frame为root View,然后再在onBindView那里获取各种组件进行处理，我们可以学习这个过程，继承了Preference的MyPreference类，在onBindView那里findViewByID就能找得到我们的Tip了
+<pre>
+public class MyPreference extends Preference
+{
+	private TextView tip;
+	private boolean flag=false;
+	public MyPreference(Context context, AttributeSet attrs)
+	{
+		super(context, attrs);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	protected void onBindView(View view)
+	{
+		// TODO Auto-generated method stub
+		super.onBindView(view);
+		tip=(TextView) view.findViewById(R.id.tip);
+		tip.setText(getPersistedString("未登录"));
+	}
+
+	@Override
+	protected void onClick()//这里实现Preference的onClick函数，每次点击就把SharePreference的key值对应的内容修改
+	{
+		// TODO Auto-generated method stub
+		super.onClick();
+		flag=!flag;
+		if(flag)
+		{
+			persistString("已登录");
+		}else {
+			persistString("未登录");
+		}
+		
+	}
+
+	public void updateTip()
+	{
+		tip.setText(getPersistedString("未登录"));
+	}
+}
+</pre>
+在MainActivity里面就可以实现SharePreference改变的接口：
+<pre>
+@Override
+	protected void onResume()
+	{
+		// TODO Auto-generated method stub
+		super.onResume();
+		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+	}
+
+	@Override
+	protected void onPause()
+	{
+		// TODO Auto-generated method stub
+		super.onPause();
+		getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+			String key)
+	{
+		// TODO Auto-generated method stub
+		if(key.equals("test"))
+		{
+			MyPreference connectionPref = (MyPreference) findPreference(key);
+			connectionPref.updateTip();
+			Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show();
+		}
+	}
+</pre>
