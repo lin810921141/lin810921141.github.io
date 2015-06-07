@@ -124,13 +124,42 @@ public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
     }
 </pre>
 
-#自定义进阶
-###主题的影响
-不同的主题Theme都会影响到Preference的样式  
+#自定义进阶  
+ 
+###主题的影响  
+ 不同的主题Theme都会影响到Preference的样式  
 android:theme="@android:style/Theme.Holo.Light"  
 ![](/images/preference2.png)  
 android:theme="@android:style/Theme.Light"  
-![](/images/preference1.png)
+![](/images/preference1.png)  
+
+###自定义的PreferenceActivity的布局  
+PreferenceActivity是继承自ListActivity，之前使用PreferenceActivity时都是直接的addPreferencesFromResource(R.xml.test);  
+但是这样做的话就会造成这个Activity都是设置，我想插个图片在底部卖卖广告都不行呢，所以可以做个自定义的layout给PreferenceActivity用  
+<pre>
+&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.preferenceactivity.MainActivity" &gt;
+
+    &lt;ListView 
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"&gt;
+        
+    &lt;/ListView&gt;
+    &lt;ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher"
+        android:layout_below="@android:id/list"
+        android:layout_centerHorizontal="true"/&gt;
+    
+&lt;/RelativeLayout&gt;
+</pre>
+唯一要保证的就是这个layout里面有一个listView，id要等于android:id/list才行
+
 
 ###自定义的PreferenceCategory
 继承PreferenceCategory之后在onBindView函数中处理就可以
@@ -157,4 +186,5 @@ public class MyPreferenceCategory extends PreferenceCategory
     android:id="@+android:id/title"
 /&gt;
 </pre>
-所以理论上你可以在onBindView函数返回的那个View中做你任何想要的处理，改变背景颜色啦，改变字体大小，字体颜色之类都可以。
+所以理论上你可以在onBindView函数返回的那个View中做你任何想要的处理，改变背景颜色啦，改变字体大小，字体颜色之类都可以。  
+
